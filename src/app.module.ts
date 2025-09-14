@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
+import { CategoriesModule } from './category/category.module';
+import { ProductsModule } from './product/product.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 @Module({
@@ -15,7 +17,9 @@ import { AppService } from './app.service';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UsersModule,
+    UserModule,
+    CategoriesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
