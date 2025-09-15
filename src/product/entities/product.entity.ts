@@ -1,38 +1,51 @@
-import { Categories } from 'src/category/entities/category.entity';
 import {
-    Column,
-    CreateDateColumn,
     Entity,
-    JoinColumn,
-    ManyToOne,
+    Column,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
-} from 'typeorm'
+    CreateDateColumn,
+    UpdateDateColumn,
+    ManyToOne,
+    OneToMany,
+    JoinColumn,
+} from 'typeorm';
+import { Category } from '../../category/entities/category.entity';
+import { ProductImage } from './product-image.entity';
 
-@Entity('Products')
-export class Products{
+@Entity('products')
+export class Product {
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
-    @Column({unique:true})
-    name:string;
+    @Column({ length: 100, unique: true })
+    name: string;
 
-    @Column()
-    price:number
+    @Column({ type: 'text', nullable: true })
+    description?: string;
 
-    @Column()
-    description:string;
+    @Column({ type: 'decimal', precision: 10, scale: 2 })
+    price: number;
+
+    @Column({ type: 'int', default: 0 })
+    stock: number;
+    
+    @Column({ nullable: true })
+    image: string;
 
     @CreateDateColumn()
-    createAt:Date;
-    
+    createdAt: Date;
+
     @UpdateDateColumn()
-    updateAt:Date;
+    updatedAt: Date;
+
+    @ManyToOne(() => Category, category => category.products)
+    @JoinColumn({ name: 'categoryId' })
+    category: Category;
 
     @Column()
-    categoryId:number
+    categoryId: number;
 
-    @ManyToOne(()=>Categories, (category)=>category.products)
-    @JoinColumn({name:'categoryId'})
-    category:Categories
+    @OneToMany(() => ProductImage, image => image.product, {
+        cascade: true
+    })
+    images: ProductImage[];
 }

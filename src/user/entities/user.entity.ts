@@ -1,37 +1,41 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    CreateDateColumn,
-} from 'typeorm';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn
+}
+  from 'typeorm';
 
-export enum UserRole{
-    SUPER_ADMIN = 'SUPER_ADMIN',
-    ADMIN = 'ADMIN',
-    CUSTOMER = 'CUSTOMER',
+export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN = 'ADMIN',
+  CUSTOMER = 'CUSTOMER',
 }
 
+
 @Entity('users')
-export class User{
-    @PrimaryGeneratedColumn()
-    id:number;
+export class User {
 
-    @Column({length:100})
-    name:string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({unique:true})
-    email:string;
+  @Column({ length: 100 })
+  name: string;
 
-    @Column({type:'enum', enum:UserRole, default: UserRole.CUSTOMER})
-    role:UserRole;
+  @Column({ unique: true })
+  email: string;
 
-    @Column()
-    password:string;
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
+  role: UserRole;
 
-    @CreateDateColumn()
-    createAt:Date;
-    
-    @UpdateDateColumn()
-    updateAt:Date;
+  @Column()
+  password: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
 };
