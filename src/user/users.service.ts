@@ -28,7 +28,7 @@ export class UsersService {
         const user = this.userRepository.create({
             email: email,
             name: name,
-            role: UserRole.CUSTOMER,
+            role: UserRole.USER,
             password: hashedPassword,
         });
 

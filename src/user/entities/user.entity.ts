@@ -8,9 +8,9 @@ import {
   from 'typeorm';
 
 export enum UserRole {
-  SUPER_ADMIN = 'SUPER_ADMIN',
-  ADMIN = 'ADMIN',
-  CUSTOMER = 'CUSTOMER',
+  SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
+  USER = 'customer'
 }
 
 
@@ -26,7 +26,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
   @Column()

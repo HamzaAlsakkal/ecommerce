@@ -16,7 +16,7 @@ const storage = diskStorage({
   },
 });
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) { }
 

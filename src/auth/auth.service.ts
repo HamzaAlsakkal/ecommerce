@@ -20,7 +20,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<{ user: User; token: string }> {
+  async register(registerDto: RegisterDto): Promise<{ user: User; access_token: string }> {
     const { name, email, password, role } = registerDto;
 
     // Check if user already exists
@@ -45,7 +45,7 @@ export class AuthService {
 
     // Generate JWT token
     const payload: JwtPayload = { 
-      id: savedUser.id, 
+      sub: savedUser.id, 
       email: savedUser.email, 
       role: savedUser.role 
     };
@@ -54,10 +54,10 @@ export class AuthService {
     // Remove password from response
     const { password: _, ...userResponse } = savedUser;
 
-    return { user: userResponse as User, token };
+    return { user: userResponse as User, access_token: token };
   }
 
-  async login(loginDto: LoginDto): Promise<{ user: User; token: string }> {
+  async login(loginDto: LoginDto): Promise<{ user: User; access_token: string }> {
     const { email, password } = loginDto;
 
     // Find user by email
@@ -74,7 +74,7 @@ export class AuthService {
 
     // Generate JWT token
     const payload: JwtPayload = { 
-      id: user.id, 
+      sub: user.id, 
       email: user.email, 
       role: user.role 
     };
@@ -83,7 +83,7 @@ export class AuthService {
     // Remove password from response
     const { password: _, ...userResponse } = user;
 
-    return { user: userResponse as User, token };
+    return { user: userResponse as User, access_token: token };
   }
 
   async changePassword(
@@ -115,7 +115,7 @@ export class AuthService {
   }
 
   async validateUser(payload: JwtPayload): Promise<User> {
-    const user = await this.usersRepository.findOne({ where: { id: payload.id } });
+    const user = await this.usersRepository.findOne({ where: { id: payload.sub } });
     if (!user) {
       throw new UnauthorizedException('User not found');
     }

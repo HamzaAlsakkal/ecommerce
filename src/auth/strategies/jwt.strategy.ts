@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
 export interface JwtPayload {
-  id: number;
+  sub: number;
   email: string;
   role: string;
 }
@@ -25,8 +25,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-    const { id } = payload;
-    const user = await this.usersRepository.findOne({ where: { id } });
+    const { sub } = payload;
+    const user = await this.usersRepository.findOne({ where: { id: sub } });
 
     if (!user) {
       throw new UnauthorizedException('Token not valid');
